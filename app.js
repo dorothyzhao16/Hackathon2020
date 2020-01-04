@@ -25,7 +25,7 @@ client.on('message', msg => {
     if (message.startsWith('!cc ')) {
         // console.log('in');
         let args = message.split(' ');
-        
+
         if (args[1] == 'major') {
             // get all the roles
             let roles = msg.member.guild.roles;
@@ -79,7 +79,8 @@ client.on('message', msg => {
                 .setTitle('CampusConnect Help')
                 .addField('Add or remove the role for your major','!cc major [major]')
                 .addField('Add or remove the role for your school','!cc school [school]')
-                .addField('See list of schools','!cc schools');
+                .addField('See list of schools','!cc schools')
+                .addField('See number of points','!cc points');
             msg.channel.send(`${authorMention}:`, embed=embed);
         }
     }
