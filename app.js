@@ -18,7 +18,45 @@ client.on('message', msg => {
     if (msg.author.bot) {
         return
     }
-    msg.channel.send(`${authorMention}: hi :)`);
+    // msg.channel.send(`${authorMention}: hi :)`);
+
+    if (message.startsWith('!cc ')) {
+        // console.log('in');
+        let args = message.split(' ');
+        if (args[1] == 'major') {
+            // get all the roles
+            let roles = msg.member.guild.roles;
+            let roleName = '';
+
+            // make the role string
+            for (let i = 2; i < args.length; i++) {
+                roleName += args[i] + ' ';
+            }
+
+            // remove the trailing space
+            roleName = roleName.substring(0, roleName.length - 1);
+
+            // loop through all roles
+            roles.forEach(role => {
+                
+                if (role.name == roleName) {
+                    // user has the role
+                    if (msg.member.roles.has(role.id)) {
+
+                    }
+                    // user doesn't have the role
+                    else {
+                        msg.member.addRole(role.id);
+                    }
+
+                }
+            })
+            // console.log(roles);
+        }
+        else if (args[1] == 'school') {
+
+        }
+    }
 });
 
 // log you in
