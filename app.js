@@ -58,6 +58,17 @@ client.on('message', msg => {
         }
         else if (args[1] == 'school') { // Cassidy's working on it!
             //PM user link to correct school server
+
+		if(args[2] == 'OSU'){
+    			const m = `https://discord.gg/6wJk2VB`;
+    			msg.member.send(m);
+		}
+		else{
+    			const m = `https://discord.gg/Ej2Ftd4`;
+    			msg.member.send(m);
+	    	}
+
+
         }
         else if (args[1] == 'schools') {
             // display all available schools
