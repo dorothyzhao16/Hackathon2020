@@ -59,34 +59,41 @@ client.on('message', msg => {
         else if (args[1] == 'school') { // Cassidy's working on it!
             //PM user link to correct school server
 
-		if(args[2] == 'OSU'){
-    			const m = `https://discord.gg/6wJk2VB`;
-    			msg.member.send(m);
+		if(args[2] == 'OSU'){		
                     		
 				// user has the role
                     		if (msg.member.roles.has('662821729017790465')) {
                        			 msg.member.removeRole('662821729017790465');
+					 msg.channel.send(`${authorMention}: Your school, Ohio State, has been removed.`);
                     		}
 		
                     		// user doesn't have the role
                     		else {
+				msg.channel.send(`${authorMention}: Your school, Ohio State, has been added.`);
                         	msg.member.addRole('662821729017790465');
+
+    				const m = `https://discord.gg/6wJk2VB`;
+    				msg.member.send(m);
                     		}
 
             			
 		}
 		else{
-    			const m = `https://discord.gg/Ej2Ftd4`;
-    			msg.member.send(m);
 
 				// user has the role
                     		if (msg.member.roles.has('662821589879881748')) {
                        			 msg.member.removeRole('662821589879881748');
+					 msg.channel.send(`${authorMention}: Your school, Cleveland State, has been removed.`);
                     		}
 		
                     		// user doesn't have the role
                     		else {
                         	msg.member.addRole('662821589879881748');
+				msg.channel.send(`${authorMention}: Your school, Cleveland State, has been added.`);
+
+    				const m = `https://discord.gg/Ej2Ftd4`;
+    				msg.member.send(m);
+
                     		}
 	    	}
 
