@@ -4,7 +4,6 @@ const client = new Discord.Client();
 const Sequelize = require('sequelize');
 const SequelizeModels = require('./models');
 const db = require('./database.js');
-
 const SequelizeConnect = new Sequelize({
     host: 'localhost',
     dialect: 'mysql',
@@ -23,6 +22,8 @@ const SequelizeConnect = new Sequelize({
     },
     logging: false
 });
+
+const medalEmoji = '🏅';
 
 // makes sure the bot is ready
 client.on('ready', () => {
@@ -86,11 +87,21 @@ client.on('message', msg => {
             msg.channel.send(`${authorMention}:`, embed=embed);
         }
         else if (args[1] == 'points') {
-            db.getUserPoints(authorID)
-            .then(points => {
-                msg.channel.send(`${authorMention}: You have ${points} points`);
-            })
-            .catch(console.error);
+            if (msg.mentions.members.first() != undefined) {
+                let mentionID = msg.mentions.members.first().user.id;
+                db.getUserPoints(mentionID)
+                .then(points => {
+                    msg.channel.send(`${authorMention}: <@${mentionID}> has ${points} points`);
+                })
+                .catch(console.error);
+            }
+            else {
+                db.getUserPoints(authorID)
+                .then(points => {
+                    msg.channel.send(`${authorMention}: You have ${points} points`);
+                })
+                .catch(console.error);
+            }
         }
     }
 });
@@ -98,6 +109,12 @@ client.on('message', msg => {
 client.on('guildMemberAdd', member => {
     const m = `Welcome to the CampusConnects Discord Server!\n\nMake sure to add your roles and college in the <#662845246006362114> to gain permission!`;
     member.send(m);
+})
+
+client.on('messageReactionAdd', (reaction, user) => {
+    if (reaction.emoji.name === medalEmoji) {
+        db.setUserPoints(reaction.message.author.id, 1);
+    }
 })
 // log you in
 client.login(config.token);

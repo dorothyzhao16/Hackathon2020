@@ -24,31 +24,35 @@ function getUserPoints(id) {
 }
 
 function setUserPoints(id, pointDiff) {
-    getUserPoints(id)
-    .then(userPoints => {
-        if (currPoints == null) {
-            addUserPoints(id,points)
-            .then(_ => {
-                addUserPoints(id, pointDiff)
+    return new Promise(function(resolve, reject) {
+        getUserPoints(id)
+        .then(userPoints => {
+            if (userPoints == null) {
+                addUserPoints(id,points)
+                .then(_ => {
+                    addUserPoints(id, pointDiff)
+                .catch(console.error)
+                })
+                .then(_ => {
+                    resolve(true);
+                
+                })
+            }
+            else {
+                SequelizeModels.points.update({
+                    points: userPoints + pointDiff
+                }, {
+                    where: {
+                        id: id
+                    }
+                })
                 .catch(console.error)
                 .then(_ => {
                     resolve(true);
                 })
-            })
-        }
-        else {
-            SequelizeModels.points.update({
-                points: userPoints + pointDiff
-            }, {
-                where: {
-                    id: id
-                }
-            })
-            .catch(console.error)
-            .then(_ => {
-                resolve(true);
-            })
-        }
+            }
+        })
+        .catch(console.error);
     })
 }
 
