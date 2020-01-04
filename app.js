@@ -1,6 +1,8 @@
 const config = require('./config/config.json');
 const Discord = require('discord.js');
 const client = new Discord.Client();
+const Sequelize = require('sequelize');
+const SequelizeModels = require('./models');
 
 // makes sure the bot is ready
 client.on('ready', () => {
@@ -23,6 +25,7 @@ client.on('message', msg => {
     if (message.startsWith('!cc ')) {
         // console.log('in');
         let args = message.split(' ');
+
         if (args[1] == 'major') {
             // get all the roles
             let roles = msg.member.guild.roles;
@@ -54,10 +57,20 @@ client.on('message', msg => {
             // console.log(roles);
         }
         else if (args[1] == 'school') {
-
+        }
+        else if (args[1] == 'help') {
+            let embed = new Discord.RichEmbed()
+                .setTitle('CampusConnect Help')
+                .addField('!cc major [major]', 'Add or remove the role for your major')
+                .addField('!cc school [school]', 'Add or remove the role for your school');
+            msg.channel.send(`${authorMention}:`, embed=embed);
         }
     }
 });
 
+client.on('guildMemberAdd', member => {
+    const m = `Welcome to the CampusConnects Discord Server!\n\nMake sure to add your roles and college in the <#662845246006362114> to gain permission!`;
+    member.send(m);
+})
 // log you in
 client.login(config.token);
