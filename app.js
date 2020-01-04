@@ -113,7 +113,34 @@ client.on('guildMemberAdd', member => {
 
 client.on('messageReactionAdd', (reaction, user) => {
     if (reaction.emoji.name === medalEmoji) {
-        db.setUserPoints(reaction.message.author.id, 1);
+        db.setUserPoints(reaction.message.author.id, 1)
+        .then(_ => {
+            db.getUserPoints(reaction.message.author.id)
+            .then(points => {
+
+                if (points == 10) {
+                    reaction.message.member.addRole('663093015539089435');
+                    reaction.message.channel.send(`Congrats <@${reaction.message.author.id}>! You have leveled up`);
+                }
+                else if (points == 25) {
+                    reaction.message.member.removeRole('663093015539089435');
+                    reaction.message.member.addRole('663093236725710859');
+                    reaction.message.channel.send(`Congrats <@${reaction.message.author.id}>! You have leveled up`);
+                }
+                else if (points == 50) {
+                    reaction.message.member.removeRole('663093236725710859');
+                    reaction.message.member.addRole('663093247031246858');
+                    reaction.message.channel.send(`Congrats <@${reaction.message.author.id}>! You have leveled up`);
+                }
+                else if (points == 100) {
+                    reaction.message.member.removeRole('663093247031246858')
+                    reaction.message.member.addRole('663093254136397854');
+                    reaction.message.channel.send(`Congrats <@${reaction.message.author.id}>! You have leveled up`);
+                }
+            })
+            .catch(console.error);
+        })
+        .catch(console.error);
     }
 })
 
