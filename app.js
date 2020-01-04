@@ -66,7 +66,7 @@ client.on('message', msg => {
                 if (role.name == roleName) {
                     // user has the role
                     if (msg.member.roles.has(role.id)) {
-
+			msg.member.removeRole(role.id);
                     }
                     // user doesn't have the role
                     else {
