@@ -1,0 +1,6 @@
+// delete these comments before running as this is invalid JSON
+// replace the null value of the token from the Discord Developer API
+
+{
+    "token": null
+}
