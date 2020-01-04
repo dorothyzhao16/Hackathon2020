@@ -3,6 +3,26 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const Sequelize = require('sequelize');
 const SequelizeModels = require('./models');
+const db = require('./database.js');
+
+const SequelizeConnect = new Sequelize({
+    host: 'localhost',
+    dialect: 'mysql',
+    dialectOptions: {
+      charset: 'utf8mb4'
+    },
+    pool: {
+        max: 20,
+        min: 0,
+        idle: 10000
+    },
+    define: {
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
+      timestamps: true
+    },
+    logging: false
+});
 
 // makes sure the bot is ready
 client.on('ready', () => {
@@ -51,19 +71,26 @@ client.on('message', msg => {
                     else {
                         msg.member.addRole(role.id);
                     }
-
                 }
             })
             // console.log(roles);
         }
         else if (args[1] == 'school') {
+
         }
         else if (args[1] == 'help') {
             let embed = new Discord.RichEmbed()
                 .setTitle('CampusConnect Help')
-                .addField('!cc major [major]', 'Add or remove the role for your major')
-                .addField('!cc school [school]', 'Add or remove the role for your school');
+                .addField('Add or remove the role for your major','!cc major [major]')
+                .addField('Add or remove the role for your school','!cc school [school]');
             msg.channel.send(`${authorMention}:`, embed=embed);
+        }
+        else if (args[1] == 'points') {
+            db.getUserPoints(authorID)
+            .then(points => {
+                msg.channel.send(`${authorMention}: You have ${points} points`);
+            })
+            .catch(console.error);
         }
     }
 });
