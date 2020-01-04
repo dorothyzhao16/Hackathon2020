@@ -116,5 +116,11 @@ client.on('messageReactionAdd', (reaction, user) => {
         db.setUserPoints(reaction.message.author.id, 1);
     }
 })
+
+client.on('messageReactionRemove', (reaction, user) => {
+    if (reaction.emoji.name === medalEmoji) {
+        db.setUserPoints(reaction.message.author.id, -1);
+    }
+})
 // log you in
 client.login(config.token);
