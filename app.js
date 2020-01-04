@@ -62,10 +62,32 @@ client.on('message', msg => {
 		if(args[2] == 'OSU'){
     			const m = `https://discord.gg/6wJk2VB`;
     			msg.member.send(m);
+                    		
+				// user has the role
+                    		if (msg.member.roles.has('662821729017790465')) {
+                       			 msg.member.removeRole('662821729017790465');
+                    		}
+		
+                    		// user doesn't have the role
+                    		else {
+                        	msg.member.addRole('662821729017790465');
+                    		}
+
+            			
 		}
 		else{
     			const m = `https://discord.gg/Ej2Ftd4`;
     			msg.member.send(m);
+
+				// user has the role
+                    		if (msg.member.roles.has('662821589879881748')) {
+                       			 msg.member.removeRole('662821589879881748');
+                    		}
+		
+                    		// user doesn't have the role
+                    		else {
+                        	msg.member.addRole('662821589879881748');
+                    		}
 	    	}
 
 
