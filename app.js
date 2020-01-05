@@ -31,20 +31,21 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
+
     let authorMention = msg.author;
     let message = msg.content;
     let authorID = authorMention.id;
     let channel = msg.channel;
     let authorName = authorMention.username;
+
+    // print message to console
     console.log(`${authorName}: ${message}`);
     // don't respond to another bot message
     if (msg.author.bot) {
         return
     }
-    // msg.channel.send(`${authorMention}: hi :)`);
 
     if (message.startsWith('!cc ')) {
-        // console.log('in');
         let args = message.split(' ');
 
         if (args[1] == 'major') {
@@ -122,6 +123,7 @@ client.on('message', msg => {
             // display all available schools
             msg.channel.send(`Here's a list of schools! \nCSU - Cleveland State University\nOSU - Ohio State University`);
         } else if (args[1] == 'help') {
+            // use embed message
             let embed = new Discord.RichEmbed()
                 .setTitle('CampusConnect Help')
                 .addField('Add or remove the role for your major', '!cc major [major]')
@@ -130,6 +132,7 @@ client.on('message', msg => {
                 .addField('See number of points', '!cc points');
             msg.channel.send(`${authorMention}:`, embed = embed);
         } else if (args[1] == 'points') {
+            // looking at another user's points
             if (msg.mentions.members.first() != undefined) {
                 let mentionID = msg.mentions.members.first().user.id;
                 db.getUserPoints(mentionID)
@@ -148,11 +151,13 @@ client.on('message', msg => {
     }
 });
 
+// send message to user when entering the server
 client.on('guildMemberAdd', member => {
     const m = `Welcome to the CampusConnects Discord Server!\n\nMake sure to add your roles and college in the <#662845246006362114> to gain permission! Use \`!cc help\` to view the commands!`;
     member.send(m);
 })
 
+// adding points on message 
 client.on('messageReactionAdd', (reaction, user) => {
     if (reaction.emoji.name === medalEmoji) {
         db.setUserPoints(reaction.message.author.id, 1)
@@ -182,6 +187,7 @@ client.on('messageReactionAdd', (reaction, user) => {
     }
 })
 
+// remove point when emoji is removed
 client.on('messageReactionRemove', (reaction, user) => {
     if (reaction.emoji.name === medalEmoji) {
         db.setUserPoints(reaction.message.author.id, -1);
