@@ -62,28 +62,78 @@ client.on('message', msg => {
 
             // loop through all roles
             roles.forEach(role => {
-                
+
                 if (role.name == roleName) {
                     // user has the role
                     if (msg.member.roles.has(role.id)) {
-			msg.member.removeRole(role.id);
+                        msg.member.removeRole(role.id)
+                        msg.channel.send(`${authorMention}: Your ${roleName} major has been removed.`);
                     }
                     // user doesn't have the role
                     else {
-                        msg.member.addRole(role.id);
+                        msg.member.addRole(role.id)
+                        msg.channel.send(`${authorMention}: Your ${roleName} major has been added.`);
                     }
                 }
             })
             // console.log(roles);
         }
-        else if (args[1] == 'school') {
+        else if (args[1] == 'school') { // Cassidy's working on it!
+            //PM user link to correct school server
 
+		if(args[2] == 'OSU'){
+    			const m = `https://discord.gg/6wJk2VB`;
+    			msg.member.send(m);
+
+				// user has the role
+                    		if (msg.member.roles.has('662821729017790465')) {
+                       			 msg.member.removeRole('662821729017790465');
+					 msg.channel.send(`${authorMention}: Your school, Ohio State, has been removed.`);
+                    		}
+
+                    		// user doesn't have the role
+                    		else {
+				msg.channel.send(`${authorMention}: Your school, Ohio State, has been added.`);
+                        	msg.member.addRole('662821729017790465');
+
+    				const m = `https://discord.gg/6wJk2VB`;
+    				msg.member.send(m);
+                    		}
+
+
+		}
+		else{
+
+				// user has the role
+                    		if (msg.member.roles.has('662821589879881748')) {
+                       			 msg.member.removeRole('662821589879881748');
+					 msg.channel.send(`${authorMention}: Your school, Cleveland State, has been removed.`);
+                    		}
+
+                    		// user doesn't have the role
+                    		else {
+                        	msg.member.addRole('662821589879881748');
+				msg.channel.send(`${authorMention}: Your school, Cleveland State, has been added.`);
+
+    				const m = `https://discord.gg/Ej2Ftd4`;
+    				msg.member.send(m);
+
+                    		}
+	    	}
+
+
+        }
+        else if (args[1] == 'schools') {
+            // display all available schools
+            msg.channel.send(`Here's a list of schools! \nCSU - Cleveland State University\nOSU - Ohio State University`);
         }
         else if (args[1] == 'help') {
             let embed = new Discord.RichEmbed()
                 .setTitle('CampusConnect Help')
                 .addField('Add or remove the role for your major','!cc major [major]')
-                .addField('Add or remove the role for your school','!cc school [school]');
+                .addField('Add or remove the role for your school','!cc school [school]')
+                .addField('See list of schools','!cc schools')
+                .addField('See number of points','!cc points');
             msg.channel.send(`${authorMention}:`, embed=embed);
         }
         else if (args[1] == 'points') {
