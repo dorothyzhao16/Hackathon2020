@@ -13,4 +13,5 @@ create table points (
   primary key (id)
 );
 ```
-5. Run the application with `node app.js`
+5. Create the config 
+6. Run the application with `node app.js`
